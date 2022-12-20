@@ -8,8 +8,8 @@ import type {
   pitchLineParameters,
   ToneJSDuration,
   Vibe,
-} from "@/music/types";
-import { bassNotes, middleNotes } from "@/music/constants";
+} from "./types";
+import { bassNotes, middleNotes } from "./constants";
 import {
   getDiminishedSeventh,
   getMajorFifth,
@@ -35,15 +35,15 @@ import {
   getPowerFifth,
   getPowerSixth,
   getAvailableNote,
-} from "@/music/keysAndChords";
-import { tonejsDurationTo16thCount } from "@/music/durations";
+} from "./keysAndChords";
+import { tonejsDurationTo16thCount } from "./durations";
 import {
   getBPM,
   getInstruments,
   getInitialMelodyParameters,
   getInitialCountermelodyParameters,
   incrementParameters,
-} from "@/music/vibes";
+} from "./vibes";
 
 let instrumentVolume = -24;
 const startCreepy = Math.random() > 0.5;
