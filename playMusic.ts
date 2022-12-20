@@ -1,5 +1,9 @@
 import ElectricGuitar from "tonejs-instrument-guitar-electric-mp3";
 import Violin from "tonejs-instrument-violin-mp3";
+import Harmonium from "tonejs-instrument-harmonium-mp3";
+import Piano from "tonejs-instrument-piano-mp3";
+import Clarinet from "tonejs-instrument-clarinet-mp3";
+import Harp from "tonejs-instrument-harp-mp3";
 import * as Tone from "tone";
 import type {
   BaseDuration,
@@ -55,8 +59,28 @@ const violin = new Violin({
 const electricGuitar = new ElectricGuitar({
   minify: true,
 }).toDestination("main");
+const harmonium = new Harmonium({
+  minify: true,
+}).toDestination("main");
+const piano = new Piano({
+  minify: true,
+}).toDestination("main");
+const clarinet = new Clarinet({
+  minify: true,
+}).toDestination("main");
+const harp = new Harp({
+  minify: true,
+}).toDestination("main");
 
-const availableInstruments = { violin, electricGuitar };
+
+const availableInstruments = {
+  violin,
+  electricGuitar,
+  harmonium,
+  piano,
+  clarinet,
+  harp,
+};
 
 export const addToneJSDurations = (
   durationObject1: ToneJSDuration,
@@ -84,10 +108,16 @@ export const addDurationObjects = (
 
 export const setVolume = (volume: number) => {
   instrumentVolume = volume;
-  Object.values(availableInstruments).forEach((instrument) => {
+  Object.entries(availableInstruments).forEach(([index, instrument]) => {
     instrument.volume.value = volume;
     if (instrument.volume.value == -50) {
       instrument.volume.value = -5000;
+    }
+    if (index === "harmonium") {
+      instrument.volume.value = instrument.volume.value - 8;
+    }
+    if (index === "clarinet") {
+      instrument.volume.value = instrument.volume.value - 8;
     }
   });
 };

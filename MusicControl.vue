@@ -33,6 +33,7 @@ export default defineComponent({
                 <option value="bumpish">Bumpish</option>
                 <option value="basicpicky">Picky (Basic)</option>
                 <option value="funkypicky">Picky (Funky)</option>
+                <option value="barke">Barke</option>
             </select>
         </div>
     </div>

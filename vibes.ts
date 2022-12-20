@@ -13,12 +13,22 @@ export const getBPM = (currentVibe: Vibe) => {
   if (currentVibe === "creepy") {
     return 60;
   }
+  if (currentVibe === "barke") {
+    return 80;
+  }
   return 70;
 };
 
 export const getInstruments = (
   currentVibe: Vibe,
-  availableInstruments: { electricGuitar: any; violin: any }
+  availableInstruments: {
+    electricGuitar: any;
+    violin: any;
+    harmonium: any;
+    piano: any;
+    harp: any;
+    clarinet: any;
+  }
 ) => {
   if (currentVibe === "pleasentlypicky" || currentVibe === "basicpicky") {
     return {
@@ -43,7 +53,7 @@ export const getInstruments = (
       chordsInstrument: availableInstruments.electricGuitar,
       playChordsInstrument: false,
     };
-  } 
+  }
   if (currentVibe === "creepy") {
     return {
       melodyInstrument: availableInstruments.violin,
@@ -55,7 +65,7 @@ export const getInstruments = (
       chordsInstrument: availableInstruments.electricGuitar,
       playChordsInstrument: false,
     };
-  } 
+  }
   if (currentVibe === "bumpish") {
     return {
       melodyInstrument: availableInstruments.violin,
@@ -65,6 +75,18 @@ export const getInstruments = (
       playCountermelodyInstrument: true,
 
       chordsInstrument: availableInstruments.electricGuitar,
+      playChordsInstrument: false,
+    };
+  }
+  if (currentVibe === "barke") {
+    return {
+      melodyInstrument: availableInstruments.harp,
+      playMelodyInstrument: true,
+      
+      countermelodyInstrument: availableInstruments.clarinet,
+      playCountermelodyInstrument: true,
+
+      chordsInstrument: availableInstruments.piano,
       playChordsInstrument: false,
     };
   }
@@ -112,7 +134,7 @@ export const getInitialMelodyParameters = (
       skippinessDelta: 0,
       rapidity: 0.7,
       maxRapidity: 0.9,
-      minRapidity: 0.40,
+      minRapidity: 0.4,
       rapidityDelta: 0,
       jazziness: 0.1,
       maxJazziness: 0.35,
@@ -142,6 +164,27 @@ export const getInitialMelodyParameters = (
       jumpiness: 0.3,
       maxJumpiness: 0.3,
       minJumpiness: 0.3,
+      jumpinessDelta: 0,
+    };
+  }
+
+  if (currentVibe === "barke") {
+    return {
+      skippiness: 3,
+      maxSkippiness: 4,
+      minSkippiness: 2,
+      skippinessDelta: -0.05,
+      rapidity: 0.2,
+      maxRapidity: 0.4,
+      minRapidity: -0.4,
+      rapidityDelta: 0,
+      maxJazziness: 0.1,
+      minJazziness: 0,
+      jazziness: 0,
+      jazzinessDelta: 0,
+      jumpiness: 0.3,
+      maxJumpiness: 0.2,
+      minJumpiness: 0.4,
       jumpinessDelta: 0,
     };
   }
