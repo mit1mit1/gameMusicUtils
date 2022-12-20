@@ -39,6 +39,9 @@ import {
   getPowerFifth,
   getPowerSixth,
   getAvailableNote,
+  isSameModuloOctave,
+  getFlatSecond,
+  getSeventh,
 } from "./keysAndChords";
 import { tonejsDurationTo16thCount } from "./durations";
 import {
@@ -71,7 +74,6 @@ const clarinet = new Clarinet({
 const harp = new Harp({
   minify: true,
 }).toDestination("main");
-
 
 const availableInstruments = {
   violin,
@@ -312,48 +314,89 @@ const fadeOutThenIn = async () => {
   }
 };
 
-const getChord = (key: Pitch, lastChord: Chord): Chord => {
-  const random = Math.random();
-  if (random < 0.1) {
+const getChord = (
+  key: Pitch,
+  lastChord: Chord,
+  parameters: pitchLineParameters
+): Chord => {
+  const chooseChordRandom = Math.random();
+
+  const keyChangeRandom = Math.random();
+  if (keyChangeRandom < parameters.jazziness * 0.8) {
+    if (chooseChordRandom < 0.1) {
+      return getPowerFourth(key);
+    }
+    if (chooseChordRandom < 0.2) {
+      return getMajorFourth(key);
+    }
+    if (chooseChordRandom < 0.3) {
+      return getPowerFifth(key);
+    }
+    if (chooseChordRandom < 0.4) {
+      return getMajorFifth(key);
+    }
+    if (chooseChordRandom < 0.45) {
+      return getDiminishedSeventh(key);
+    }
+    if (chooseChordRandom < 0.55) {
+      return getRootPower(getFlatSecond(key));
+    }
+    if (chooseChordRandom < 0.65) {
+      return getRootMajor(getSeventh(key));
+    }
+    if (chooseChordRandom < 0.75) {
+      return getMajorThird(key);
+    }
+  }
+  if (chooseChordRandom < 0.1) {
     return getRootMajor(key);
   }
-  if (random < 0.2) {
+  if (chooseChordRandom < 0.2) {
     return getRootPower(key);
   }
-  if (random < 0.23) {
+  if (chooseChordRandom < 0.23) {
     return getMinorSecond(key);
   }
-  if (random < 0.26) {
+  if (chooseChordRandom < 0.26) {
     return getPowerSecond(key);
   }
-  if (random < 0.35) {
+  if (chooseChordRandom < 0.35) {
     return getPowerThird(key);
   }
-  if (random < 0.4) {
+  if (chooseChordRandom < 0.4) {
     return getMinorThird(key);
   }
-  if (random < 0.4) {
+  if (chooseChordRandom < 0.4) {
     return getPowerFourth(key);
   }
-  if (random < 0.55) {
+  if (chooseChordRandom < 0.55) {
     return getMajorFourth(key);
   }
-  if (random < 0.65) {
+  if (chooseChordRandom < 0.65) {
     return getPowerFifth(key);
   }
-  if (random < 0.75) {
+  if (chooseChordRandom < 0.75) {
     return getMajorFifth(key);
   }
-  if (random < 0.85) {
+  if (chooseChordRandom < 0.85) {
     return getMinorSixth(key);
   }
-  if (random < 0.92) {
+  if (chooseChordRandom < 0.93) {
     return getPowerSixth(key);
   }
-  if (random < 0.93) {
+  if (chooseChordRandom < 0.95) {
     return getDiminishedSeventh(key);
   }
-  return getMajorThird(key);
+  if (chooseChordRandom < 0.96) {
+    return getRootPower(getFlatSecond(key));
+  }
+  if (chooseChordRandom < 0.97) {
+    return getRootMajor(getSeventh(key));
+  }
+  if (chooseChordRandom < 0.98) {
+    return getMajorThird(key);
+  }
+  return getRootMajor(key);
 };
 
 const getChordLength = (index: number): ToneJSDuration => {
@@ -392,11 +435,24 @@ const getChordLength = (index: number): ToneJSDuration => {
 const getKey = (key: Pitch, currentChord: Chord) => {
   const random = Math.random();
   if (includesChord(getNormalChords(key), currentChord)) {
+    if (isSameModuloOctave(getFifth(key), currentChord.rootNote)) {
+      if (random < 0.2) {
+        return currentChord.rootNote;
+      }
+    }
+    if (isSameModuloOctave(getFourth(key), currentChord.rootNote)) {
+      if (random < 0.1) {
+        return currentChord.rootNote;
+      }
+    }
     return key;
   }
   if (currentChord.chordType === "major") {
     if (random < 0.5) {
       return getFourth(currentChord.rootNote, bassNotes);
+    }
+    if (random < 0.7) {
+      return currentChord.rootNote;
     }
   }
   return key;
@@ -425,7 +481,7 @@ export const startNewSong = async () => {
       getInitialCountermelodyParameters(currentVibe);
     const bandInstruments = getInstruments(currentVibe, availableInstruments);
     while (i < 100) {
-      const currentChord = getChord(key, lastChord);
+      const currentChord = getChord(key, lastChord, countermelodyParameters);
       const chordDuration = getChordLength(i);
       key = getKey(key, currentChord);
       if (bandInstruments.playChordsInstrument) {

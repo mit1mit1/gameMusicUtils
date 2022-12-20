@@ -4,6 +4,9 @@ import { pitchNames } from "./types";
 
 const allPitches = [...pitchNames];
 
+export const isSameModuloOctave = (note1: Pitch, note2: Pitch) =>
+  note1.startsWith(note2.slice(0, -1));
+
 export const getAvailableNote = (
   baseNote: Pitch,
   availableNotes: Pitch[] = middleNotes
@@ -12,13 +15,21 @@ export const getAvailableNote = (
     return availableNotes.indexOf(baseNote);
   }
   const similarNote = availableNotes.find((note) =>
-    note.startsWith(baseNote.slice(0, -1))
+    isSameModuloOctave(note, baseNote)
   );
   if (similarNote) {
     return availableNotes.indexOf(similarNote);
   }
   return 0;
 };
+
+export const getFlatSecond = (
+  baseNote: Pitch,
+  availableNotes: Pitch[] = middleNotes
+) =>
+  availableNotes[
+    (getAvailableNote(baseNote, availableNotes) + 2) % availableNotes.length
+  ];
 
 export const getSecond = (
   baseNote: Pitch,
