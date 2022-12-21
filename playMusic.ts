@@ -463,7 +463,7 @@ export const startNewSong = async () => {
   Tone.Transport.position = "0:0:0";
   if (!isTransitioning) {
     isTransitioning = true;
-
+    
     await fadeOutThenIn();
     let currentTime: ToneJSDuration = { "8n": 1 };
 
@@ -473,7 +473,11 @@ export const startNewSong = async () => {
       chordType: "major",
     };
     let lastMelodyNote: Pitch = "B4";
+    let lastMelodyNote2: Pitch = "B4";
+    let lastMelodyNote3: Pitch = "B4";
     let lastCounterMelodyNote: Pitch = "E2";
+    let lastCounterMelodyNote2: Pitch = "E2";
+    let lastCounterMelodyNote3: Pitch = "E2";
     let i: number = 0;
 
     let melodyParameters = getInitialMelodyParameters(currentVibe);
@@ -502,6 +506,24 @@ export const startNewSong = async () => {
           bandInstruments.melodyInstrument,
           melodyParameters
         );
+        lastMelodyNote2 = getAndPushMelody(
+          key,
+          currentChord,
+          currentTime,
+          chordDuration,
+          lastMelodyNote2,
+          bandInstruments.melodyInstrument,
+          melodyParameters
+        );
+        lastMelodyNote3 = getAndPushMelody(
+          key,
+          currentChord,
+          currentTime,
+          chordDuration,
+          lastMelodyNote3,
+          bandInstruments.melodyInstrument,
+          melodyParameters
+        );
       }
       if (bandInstruments.playCountermelodyInstrument) {
         lastCounterMelodyNote = getAndPushMelody(
@@ -510,6 +532,26 @@ export const startNewSong = async () => {
           currentTime,
           chordDuration,
           lastCounterMelodyNote,
+          bandInstruments.countermelodyInstrument,
+          countermelodyParameters,
+          bassNotes
+        );
+        lastCounterMelodyNote2 = getAndPushMelody(
+          key,
+          currentChord,
+          currentTime,
+          chordDuration,
+          lastCounterMelodyNote2,
+          bandInstruments.countermelodyInstrument,
+          countermelodyParameters,
+          bassNotes
+        );
+        lastCounterMelodyNote3 = getAndPushMelody(
+          key,
+          currentChord,
+          currentTime,
+          chordDuration,
+          lastCounterMelodyNote3,
           bandInstruments.countermelodyInstrument,
           countermelodyParameters,
           bassNotes

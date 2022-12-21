@@ -7,6 +7,9 @@ export const getBPM = (currentVibe: Vibe) => {
   if (currentVibe === "basicpicky") {
     return 100;
   }
+  if (currentVibe === "fonk") {
+    return 120;
+  }
   if (currentVibe === "funkypicky") {
     return 120;
   }
@@ -43,6 +46,18 @@ export const getInstruments = (
     };
   }
   if (currentVibe === "funkypicky") {
+    return {
+      melodyInstrument: availableInstruments.electricGuitar,
+      playMelodyInstrument: true,
+
+      countermelodyInstrument: availableInstruments.electricGuitar,
+      playCountermelodyInstrument: true,
+
+      chordsInstrument: availableInstruments.electricGuitar,
+      playChordsInstrument: false,
+    };
+  }
+  if (currentVibe === "fonk") {
     return {
       melodyInstrument: availableInstruments.electricGuitar,
       playMelodyInstrument: true,
@@ -143,6 +158,27 @@ export const getInitialMelodyParameters = (
       jumpiness: 0.3,
       maxJumpiness: 0.5,
       minJumpiness: 0.1,
+      jumpinessDelta: 0,
+    };
+  }
+
+  if (currentVibe === "fonk") {
+    return {
+      skippiness: 1,
+      maxSkippiness: 3,
+      minSkippiness: 0.5,
+      skippinessDelta: 0,
+      rapidity: 0.85,
+      maxRapidity: 1.8,
+      minRapidity: 0.5,
+      rapidityDelta: 0,
+      jazziness: 3,
+      maxJazziness: 4,
+      minJazziness: 2,
+      jazzinessDelta: 0.05,
+      jumpiness: 0.5,
+      maxJumpiness: 0.8,
+      minJumpiness: 0,
       jumpinessDelta: 0,
     };
   }
