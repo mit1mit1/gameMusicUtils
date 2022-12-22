@@ -1,15 +1,9 @@
 <script lang="ts">
 import { startNewSong, setVolume, setVibe } from "./playMusic";
 import { defineComponent } from "vue";
-const defaultVolume = -24
-setVolume(defaultVolume);
+import VolumeSlider from "./VolumeSlider.vue";
 
 export default defineComponent({
-    data() {
-        return {
-            defaultVolume,
-        }
-    },
     methods: {
         startNewSong,
         setVolume,
@@ -21,10 +15,8 @@ export default defineComponent({
 <template>
     <button class="napoleonic-button" :onclick="startNewSong">Start new song</button>
 
-    <div class="volume-slider">
-        <label for="volumeSlider">Volume</label><br />
-        <input @input="(event: any) => setVolume(event.target.value)" type="range" min="-50" max="10" :value="defaultVolume"
-            class="slider" id="volumeSlider" />
+    <div class="music-control">
+        <VolumeSlider />
         <div>
             <select @input="(event: any) => setVibe(event.target.value)" name="music-vibes" id="music-vibes">
                 <option value="">Select your option</option>
