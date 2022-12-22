@@ -463,100 +463,73 @@ export const startNewSong = async () => {
   Tone.Transport.position = "0:0:0";
   if (!isTransitioning) {
     isTransitioning = true;
-    
+
     await fadeOutThenIn();
     let currentTime: ToneJSDuration = { "8n": 1 };
 
     let key: Pitch = "E2";
+    const bandInstruments = getInstruments(currentVibe, availableInstruments);
     let lastChord: Chord = {
       rootNote: "E2",
       chordType: "major",
     };
-    let lastMelodyNote: Pitch = "B4";
-    let lastMelodyNote2: Pitch = "B4";
-    let lastMelodyNote3: Pitch = "B4";
-    let lastCounterMelodyNote: Pitch = "E2";
-    let lastCounterMelodyNote2: Pitch = "E2";
-    let lastCounterMelodyNote3: Pitch = "E2";
+    const lastNotesAndChords: Array<Chord | Pitch> = bandInstruments.map(
+      (instrument) => {
+        if (instrument.type === "chords") {
+          return {
+            rootNote: "E2",
+            chordType: "major",
+          } as Chord;
+        }
+        if (instrument.type === "melody") {
+          return "B4";
+        }
+        if (instrument.type === "countermelody") {
+          return "E2";
+        }
+        return "B4";
+      }
+    );
     let i: number = 0;
-
     let melodyParameters = getInitialMelodyParameters(currentVibe);
     let countermelodyParameters =
       getInitialCountermelodyParameters(currentVibe);
-    const bandInstruments = getInstruments(currentVibe, availableInstruments);
     while (i < 100) {
       const currentChord = getChord(key, lastChord, countermelodyParameters);
       const chordDuration = getChordLength(i);
       key = getKey(key, currentChord);
-      if (bandInstruments.playChordsInstrument) {
-        pushChord(
-          currentChord,
-          currentTime,
-          chordDuration,
-          bandInstruments.chordsInstrument
-        );
-      }
-      if (bandInstruments.playMelodyInstrument) {
-        lastMelodyNote = getAndPushMelody(
-          key,
-          currentChord,
-          currentTime,
-          chordDuration,
-          lastMelodyNote,
-          bandInstruments.melodyInstrument,
-          melodyParameters
-        );
-        lastMelodyNote2 = getAndPushMelody(
-          key,
-          currentChord,
-          currentTime,
-          chordDuration,
-          lastMelodyNote2,
-          bandInstruments.melodyInstrument,
-          melodyParameters
-        );
-        lastMelodyNote3 = getAndPushMelody(
-          key,
-          currentChord,
-          currentTime,
-          chordDuration,
-          lastMelodyNote3,
-          bandInstruments.melodyInstrument,
-          melodyParameters
-        );
-      }
-      if (bandInstruments.playCountermelodyInstrument) {
-        lastCounterMelodyNote = getAndPushMelody(
-          key,
-          currentChord,
-          currentTime,
-          chordDuration,
-          lastCounterMelodyNote,
-          bandInstruments.countermelodyInstrument,
-          countermelodyParameters,
-          bassNotes
-        );
-        lastCounterMelodyNote2 = getAndPushMelody(
-          key,
-          currentChord,
-          currentTime,
-          chordDuration,
-          lastCounterMelodyNote2,
-          bandInstruments.countermelodyInstrument,
-          countermelodyParameters,
-          bassNotes
-        );
-        lastCounterMelodyNote3 = getAndPushMelody(
-          key,
-          currentChord,
-          currentTime,
-          chordDuration,
-          lastCounterMelodyNote3,
-          bandInstruments.countermelodyInstrument,
-          countermelodyParameters,
-          bassNotes
-        );
-      }
+      bandInstruments.forEach((bandInstrument, index) => {
+        if (bandInstrument.type === "chords") {
+          pushChord(
+            currentChord,
+            currentTime,
+            chordDuration,
+            bandInstrument.instrument
+          );
+        }
+        if (bandInstrument.type === "melody") {
+          lastNotesAndChords[index] = getAndPushMelody(
+            key,
+            currentChord,
+            currentTime,
+            chordDuration,
+            lastNotesAndChords[index] as Pitch,
+            bandInstrument.instrument,
+            melodyParameters
+          );
+        }
+        if (bandInstrument.type === "countermelody") {
+          lastNotesAndChords[index] = getAndPushMelody(
+            key,
+            currentChord,
+            currentTime,
+            chordDuration,
+            lastNotesAndChords[index] as Pitch,
+            bandInstrument.instrument,
+            countermelodyParameters
+          );
+        }
+      });
       currentTime = addToneJSDurations(currentTime, chordDuration);
       lastChord = currentChord;
       melodyParameters = incrementParameters(melodyParameters, currentVibe);

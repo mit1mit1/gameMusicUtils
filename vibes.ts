@@ -8,7 +8,7 @@ export const getBPM = (currentVibe: Vibe) => {
     return 100;
   }
   if (currentVibe === "fonk") {
-    return 120;
+    return 160;
   }
   if (currentVibe === "funkypicky") {
     return 120;
@@ -17,7 +17,7 @@ export const getBPM = (currentVibe: Vibe) => {
     return 60;
   }
   if (currentVibe === "barke") {
-    return 80;
+    return 70;
   }
   return 70;
 };
@@ -32,89 +32,76 @@ export const getInstruments = (
     harp: any;
     clarinet: any;
   }
-) => {
+): Array<{
+  type: "melody" | "countermelody" | "chords";
+  instrument: any;
+}> => {
   if (currentVibe === "pleasentlypicky" || currentVibe === "basicpicky") {
-    return {
-      melodyInstrument: availableInstruments.electricGuitar,
-      playMelodyInstrument: true,
-
-      countermelodyInstrument: availableInstruments.electricGuitar,
-      playCountermelodyInstrument: true,
-
-      chordsInstrument: availableInstruments.electricGuitar,
-      playChordsInstrument: true,
-    };
+    return [
+      {
+        type: "melody",
+        instrument: availableInstruments.electricGuitar,
+      },
+      {
+        type: "countermelody",
+        instrument: availableInstruments.electricGuitar,
+      },
+      { type: "chords", instrument: availableInstruments.electricGuitar },
+    ];
   }
   if (currentVibe === "funkypicky") {
-    return {
-      melodyInstrument: availableInstruments.electricGuitar,
-      playMelodyInstrument: true,
+    return [
+      { type: "melody", instrument: availableInstruments.electricGuitar },
 
-      countermelodyInstrument: availableInstruments.electricGuitar,
-      playCountermelodyInstrument: true,
-
-      chordsInstrument: availableInstruments.electricGuitar,
-      playChordsInstrument: false,
-    };
+      {
+        type: "countermelody",
+        instrument: availableInstruments.electricGuitar,
+      },
+    ];
   }
   if (currentVibe === "fonk") {
-    return {
-      melodyInstrument: availableInstruments.electricGuitar,
-      playMelodyInstrument: true,
+    return [
+      { type: "melody", instrument: availableInstruments.electricGuitar },
 
-      countermelodyInstrument: availableInstruments.electricGuitar,
-      playCountermelodyInstrument: true,
+      { type: "countermelody", instrument: availableInstruments.electricGuitar },
 
-      chordsInstrument: availableInstruments.electricGuitar,
-      playChordsInstrument: false,
-    };
+      { type: "countermelody", instrument: availableInstruments.electricGuitar },
+    ];
   }
   if (currentVibe === "creepy") {
-    return {
-      melodyInstrument: availableInstruments.violin,
-      playMelodyInstrument: true,
+    return [
+      { type: "melody", instrument: availableInstruments.violin },
 
-      countermelodyInstrument: availableInstruments.violin,
-      playCountermelodyInstrument: true,
-
-      chordsInstrument: availableInstruments.electricGuitar,
-      playChordsInstrument: false,
-    };
+      { type: "countermelody", instrument: availableInstruments.violin },
+    ];
   }
   if (currentVibe === "bumpish") {
-    return {
-      melodyInstrument: availableInstruments.violin,
-      playMelodyInstrument: true,
+    return [
+      { type: "melody", instrument: availableInstruments.violin },
 
-      countermelodyInstrument: availableInstruments.electricGuitar,
-      playCountermelodyInstrument: true,
-
-      chordsInstrument: availableInstruments.electricGuitar,
-      playChordsInstrument: false,
-    };
+      {
+        type: "countermelody",
+        instrument: availableInstruments.electricGuitar,
+      },
+    ];
   }
   if (currentVibe === "barke") {
-    return {
-      melodyInstrument: availableInstruments.harp,
-      playMelodyInstrument: true,
-      
-      countermelodyInstrument: availableInstruments.clarinet,
-      playCountermelodyInstrument: true,
+    return [
+      { type: "melody", instrument: availableInstruments.harp },
+      { type: "melody", instrument: availableInstruments.harp },
 
-      chordsInstrument: availableInstruments.piano,
-      playChordsInstrument: false,
-    };
+      { type: "countermelody", instrument: availableInstruments.clarinet },
+      { type: "countermelody", instrument: availableInstruments.clarinet },
+      { type: "countermelody", instrument: availableInstruments.clarinet },
+    ];
   }
-  return {
-    melodyInstrument: availableInstruments.electricGuitar,
-    playMelodyInstrument: true,
+  return [
+    { type: "melody", instrument: availableInstruments.electricGuitar },
 
-    countermelodyInstrument: availableInstruments.electricGuitar,
-    playCountermelodyInstrument: true,
+    { type: "countermelody", instrument: availableInstruments.electricGuitar },
 
-    chordsInstrument: availableInstruments.electricGuitar,
-    playChordsInstrument: true,
-  };
+    { type: "chords", instrument: availableInstruments.electricGuitar },
+  ];
 };
 
 export const getInitialMelodyParameters = (
@@ -268,6 +255,28 @@ export const getInitialCountermelodyParameters = (
       jumpinessDelta: 0,
     };
   }
+
+  if (currentVibe === "fonk") {
+    return {
+      skippiness: 1.9,
+      maxSkippiness: 2.4,
+      minSkippiness: 1,
+      skippinessDelta: 0,
+      rapidity: 1,
+      maxRapidity: 2,
+      minRapidity: 0.5,
+      rapidityDelta: 0,
+      jazziness: 2,
+      maxJazziness: 4,
+      minJazziness: 1,
+      jazzinessDelta: 0.05,
+      jumpiness: 0.3,
+      maxJumpiness: 0.45,
+      minJumpiness: 0.2,
+      jumpinessDelta: 0,
+    };
+  }
+
 
   if (currentVibe === "funkypicky") {
     return {
