@@ -8,6 +8,9 @@ export default defineComponent({
         startNewSong,
         setVolume,
         setVibe,
+    },
+    components: {
+        VolumeSlider
     }
 });
 </script>
