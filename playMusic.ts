@@ -5,13 +5,14 @@ import Piano from "tonejs-instrument-piano-mp3";
 import Clarinet from "tonejs-instrument-clarinet-mp3";
 import Harp from "tonejs-instrument-harp-mp3";
 import * as Tone from "tone";
-import type {
-  BaseDuration,
-  Chord,
-  Pitch,
-  pitchLineParameters,
-  ToneJSDuration,
-  Vibe,
+import {
+  randomVibes,
+  type BaseDuration,
+  type Chord,
+  type Pitch,
+  type pitchLineParameters,
+  type ToneJSDuration,
+  type Vibe,
 } from "./types";
 import { bassNotes, middleNotes } from "./constants";
 import {
@@ -540,6 +541,11 @@ export const startNewSong = async () => {
       i++;
     }
 
+    new Tone.Loop(() => {
+      const random = Math.random();
+      setVibe(randomVibes[Math.floor(random * randomVibes.length)]);
+      startNewSong();
+    }, currentTime).start(currentTime);
     Tone.Transport.start();
   }
 };

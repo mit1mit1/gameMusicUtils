@@ -16,12 +16,12 @@ export default defineComponent({
 </script>
 
 <template>
-    <button class="napoleonic-button" :onclick="startNewSong">Start new song</button>
 
     <div class="music-control">
         <VolumeSlider />
-        <div>
-            <select @input="(event: any) => setVibe(event.target.value)" name="music-vibes" id="music-vibes">
+        <div class="selector">
+            Song: <select @input="(event: any) => setVibe(event.target.value)" name="music-vibes"
+                id="music-vibes">
                 <option value="">Select your option</option>
                 <option value="pleasentlypicky">Picky</option>
                 <option value="creepy">Creepy</option>
@@ -32,6 +32,7 @@ export default defineComponent({
                 <option value="fonk">Fonk</option>
             </select>
         </div>
+        <button class="napoleonic-button" :onclick="startNewSong">Start new song</button>
     </div>
 
 </template>
@@ -41,5 +42,9 @@ label {
     font-size: 0.95em;
     font-family: "Quicksand", sans-serif;
 
+}
+
+.selector {
+    margin-bottom: 10px
 }
 </style>

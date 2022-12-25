@@ -83,7 +83,24 @@ export type Chord = {
   chordType: "major" | "minor" | "diminished" | "power";
 };
 
-export type Vibe = "creepy" | "pleasentlypicky" | "bumpish" | "basicpicky" | "funkypicky" | "barke" | "fonk";
+export type Vibe =
+  | "creepy"
+  | "pleasentlypicky"
+  | "bumpish"
+  | "basicpicky"
+  | "funkypicky"
+  | "barke"
+  | "fonk";
+
+export const randomVibes = [
+  "creepy",
+  "pleasentlypicky",
+  "bumpish",
+  "basicpicky",
+  "funkypicky",
+  "barke",
+  "fonk",
+];
 
 export type pitchLineParameters = {
   skippiness: number;
