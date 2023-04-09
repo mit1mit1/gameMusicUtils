@@ -340,6 +340,7 @@ export const getInitialCountermelodyParameters = (
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- to be used
 const getNextDelta = (currentDelta: number, currentVibe: Vibe) => {
   const nextDelta = currentDelta + (Math.floor(Math.random() * 3) - 1) * 0.05;
   if (nextDelta > 0.15) {

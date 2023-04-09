@@ -187,7 +187,6 @@ const getAndPushMelody = (
   let lastDuration = "8n";
   if (instrument.loaded) {
     for (let i = 0; i < tonejsDurationTo16thCount(chordDuration); i++) {
-      const pitchRadomiser = Math.random();
       const jazzRandomiser = Math.random();
       const skipRandomiser = Math.random();
       const jumpinessRandomiser = Math.random();
@@ -400,6 +399,7 @@ const getChord = (
   return getRootMajor(key);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- to be used
 const getChordLength = (index: number): ToneJSDuration => {
   const random = Math.random();
 
